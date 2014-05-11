@@ -28,7 +28,7 @@ class MyConcordiaApi
     /**
      * @var string
      */
-    protected $cookieJar = __DIR__."/cookiejar.txt";
+    protected $cookieJar = "";
 
     /**
      * @param string $netname
@@ -37,13 +37,13 @@ class MyConcordiaApi
      */
     public function __construct($netname = "", $password = "", $cookieJar = "")
     {
-        parent::construct();
-
         $this->netname = $netname;
         $this->password = $password;
 
         if ($cookieJar !== "") {
             $this->cookieJar = $cookieJar;
+        } else {
+            $this->cookieJar = __DIR__."/cookiejar.txt";
         }
     }
 

@@ -17,7 +17,7 @@ class CourseParser
     /**
      * Contains the DOMDocument object for the transcript page.
      *
-     * @var DOMDocument
+     * @var \DOMDocument
      */
     protected $__transcriptDOM = null;
 
@@ -29,12 +29,10 @@ class CourseParser
     protected $courses = null;
 
     /**
-     * @param DOMDocument $transcriptDOM
+     * @param \DOMDocument $transcriptDOM
      */
-    public function __construct(DOMDocument $transcriptDOM)
+    public function __construct(\DOMDocument $transcriptDOM)
     {
-        parent::__construct();
-
         $this->__transcriptDOM = $transcriptDOM;
 
         $this->generateCourses();
@@ -76,7 +74,7 @@ class CourseParser
         $mainTable = $this->__transcriptDOM
             ->getElementsByTagName('table')->item(0);
 
-        $rowOfGrades = $maintable->childNodes->item(4);
+        $rowOfGrades = $mainTable->childNodes->item(4);
         $gradesTable = $rowOfGrades->firstChild->firstChild;
 
         $this->courses = [];

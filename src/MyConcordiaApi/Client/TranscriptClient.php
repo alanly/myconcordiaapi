@@ -64,7 +64,7 @@ class TranscriptClient
      *
      * @var string
      */
-    protected $cookieJar = __DIR__."/cookiejar.txt";
+    protected $cookieJar = "";
 
     /**
      * @param string $netname
@@ -73,45 +73,31 @@ class TranscriptClient
      */
     public function __construct($netname = "", $password = "", $cookieJar = "")
     {
-        parent::__construct();
-
         $this->netname = $netname;
         $this->password = $password;
-
-        if ($cookieJar !== "") {
-            $this->cookieJar = $cookieJar;
-        }
+        $this->cookieJar = $cookieJar;
     }
 
     /**
      * Retrieves the transcript page as a `DOMDocument` object that can 
      * then be parsed.
      *
-     * @return DOMDocument
+     * @return \DOMDocument
      */
     public function getTranscript()
     {
         // Create URL encoded POST field
         $postfields = "resource=%2Fcontent%2Fcspace%2Fen%2Flogin.html&_charset_=UTF-8&userid=".urlencode($this->netname)."&pwd=".urlencode($this->password);
 
-        // Create the headers
-        $headers = [
-            'Content-Type: application/x-www-form-urlencoded',
-        ],
-
         // Authenticate the user
-        $response = $this->callCurl(CURLOPT_POST, $this->__loginUrl, $postfields, $headers);
+        $response = $this->callCurl(CURLOPT_POST, $this->__loginUrl, $postfields, true);
 
         if (stripos("MyConcordia Sign-in", $response) !== false) {
-            throw new RuntimeException("Unable to login. Response content follows:\n".$response);
+            throw new \RuntimeException("Unable to login. Response content follows:\n".$response);
         }
 
         // Retrieve the student record
         $response = $this->callCurl(CURLOPT_HTTPGET, $this->__srUrl, "", "");
-
-        if (stripos("Student Record", $response) === false) {
-            throw new RuntimeException("Unable to retrieve Student Record. Response content follows:\n".$response);
-        }
 
         // Remove the cookie jar.
         unlink($this->cookieJar);
@@ -122,7 +108,7 @@ class TranscriptClient
         libxml_use_internal_errors(true);
 
         // Create the new DOCDocument
-        $domDoc = new DOMDocument;
+        $domDoc = new \DOMDocument;
         $domDoc->loadHTML($response);
 
         return $domDoc;
@@ -138,10 +124,10 @@ class TranscriptClient
      * @param  int    $method
      * @param  string $target
      * @param  mixed  $postfields
-     * @param  array  $headers
+     * @param  bool   $isUrlEncoded
      * @return string
      */
-    protected function callCurl($method = CURLOPT_HTTPGET, $target, $postfields = "", $headers = [])
+    protected function callCurl($method = CURLOPT_HTTPGET, $target, $postfields = "", $isUrlEncoded = false)
     {
         $ch = curl_init();
 
@@ -157,11 +143,14 @@ class TranscriptClient
             CURLOPT_REFERER        => $this->__portalUrl,
             CURLOPT_USERAGENT      => $this->__userAgent,
             CURLOPT_URL            => $target,
-            CURLOPT_HTTPHEADER     => $headers,
         ];
 
         if ($method === CURLOPT_POST) {
             $curlOpts[CURLOPT_POSTFIELDS] = $postfields;
+
+            if ($isUrlEncoded === true) {
+                $curlOpts[CURLOPT_HTTPHEADER] = ['Content-Type: application/x-www-form-urlencoded'];
+            }
         }
 
         curl_setopt_array($ch, $curlOpts);

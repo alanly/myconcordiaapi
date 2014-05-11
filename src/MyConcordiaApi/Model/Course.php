@@ -1,6 +1,6 @@
 <?php
 
-namespace ConcordiaGrades\Model;
+namespace MyConcordiaApi\Model;
 
 /**
  * Course model.
