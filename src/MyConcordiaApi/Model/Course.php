@@ -2,6 +2,13 @@
 
 namespace ConcordiaGrades\Model;
 
+/**
+ * Course model.
+ *
+ * Preliminary model for Course objects.
+ *
+ * @author Alan Ly <hello@alan.ly>
+ */
 class Course
 {
     public $code          = "";

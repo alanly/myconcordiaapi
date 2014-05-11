@@ -2,6 +2,13 @@
 
 namespace MyConcordiaApi\Client;
 
+/**
+ * Portal-transcript client.
+ *
+ * Responsible for appropriately retrieving the transcript document.
+ *
+ * @author Alan Ly <hello@alan.ly>
+ */
 class TranscriptClient
 {
     /**

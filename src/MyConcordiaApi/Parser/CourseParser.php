@@ -4,6 +4,14 @@ namespace MyConcordiaApi\Parser;
 
 use MyConcordiaApi\Model\Course;
 
+/**
+ * Transcript-Course parsing agent.
+ *
+ * Responsible for parsing the transcript document and interpreting the
+ * associated courses.
+ *
+ * @author Alan Ly <hello@alan.ly>
+ */
 class CourseParser
 {
     /**

@@ -2,6 +2,17 @@
 
 namespace MyConcordiaApi;
 
+use MyConcordiaApi\Client\TranscriptClient;
+use MyConcordiaApi\Parser\CourseParser;
+
+/**
+ * API Facade.
+ *
+ * Maintains the authentication credentials and provides the primary
+ * interface for portal operations.
+ *
+ * @author Alan Ly <hello@alan.ly>
+ */
 class MyConcordiaApi
 {
     /**
@@ -43,9 +54,9 @@ class MyConcordiaApi
      */
     public function getTranscriptCourses()
     {
-        $client = new Client\TranscriptClient($this->netname, $this->password, $this->cookieJar);
+        $client = new TranscriptClient($this->netname, $this->password, $this->cookieJar);
 
-        $parser = new Parser\CourseParser($client->getTranscript());
+        $parser = new CourseParser($client->getTranscript());
 
         return $parser->getCourses();
     }
