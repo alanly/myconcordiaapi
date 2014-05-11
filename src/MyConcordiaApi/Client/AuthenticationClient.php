@@ -53,7 +53,7 @@ class AuthenticationClient
         ];
 
         // Call POST request to login URL via the opened connection.
-        $response = $this->connection->post($this->__loginUrl, $postFields)
+        $response = $this->connection->post($this->__loginUrl, $postFields);
 
         // Return the success of the authentication attempt.
         return (stripos($response, "MyConcordia Sign-in") === false);
