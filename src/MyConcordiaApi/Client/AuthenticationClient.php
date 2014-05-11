@@ -56,6 +56,6 @@ class AuthenticationClient
         $response = $this->connection->post($this->__loginUrl, $postFields)
 
         // Return the success of the authentication attempt.
-        return (stripos("MyConcordia Sign-in", $response) !== false);
+        return (stripos($response, "MyConcordia Sign-in") === false);
     }
 }
