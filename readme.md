@@ -16,7 +16,8 @@ It also assumes that the library has been properly included in the callee script
 
 In order to get a basic listing of all the courses and the associated grades, we can simply perform the following:
 
-    $portal = new MyConcordiaApi\Portal("netname", "password");
+    $portal = new MyConcordiaApi\Portal;
+    $portal->authenticate("netname", "password");
     $courses = $portal->getTranscriptCourses();
 
     foreach ($courses as $c) {
