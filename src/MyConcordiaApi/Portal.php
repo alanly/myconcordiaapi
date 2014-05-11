@@ -13,7 +13,7 @@ use MyConcordiaApi\Parser\CourseParser;
  *
  * @author Alan Ly <hello@alan.ly>
  */
-class MyConcordiaApi
+class Portal
 {
     /**
      * @var string
