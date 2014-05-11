@@ -23,16 +23,6 @@ class Portal
     protected $connector = null;
 
     /**
-     * @param  string $cookieJarContainer
-     * @return void
-     */
-    public function __construct($cookieJarContainer = null)
-    {
-        $this->connector = new PortalConnector;
-        $this->connector->open($cookieJarContainer);
-    }
-
-    /**
      * @param  string $netname
      * @param  string $password
      * @param  string $cookieJarContainer
@@ -40,7 +30,9 @@ class Portal
      */
     public function __construct($netname, $password, $cookieJarContainer = null)
     {
-        $this->__construct($cookieJarContainer);
+        $this->connector = new PortalConnector;
+        $this->connector->open($cookieJarContainer);
+        
         $this->authenticate($netname, $password);
     }
 
