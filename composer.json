@@ -1,0 +1,24 @@
+{
+    "name" : "alanly/myconcordiaapi",
+    "description" : "A programmatically convenient interface for interacting with the MyConcordia portal.",
+    "type" : "library",
+    "license" : "MIT",
+    "authors" : [
+        {
+            "name" : "Alan Ly",
+            "email" : "hello@alan.ly",
+            "homepage" : "http://alan.ly"
+        }
+    ],
+    "require" : {
+        "php" : ">=5.5.0",
+        "ext-curl" : "*",
+        "ext-pcre" : "*",
+        "ext-libxml" : "*"
+    },
+    "autoload" : {
+        "psr-4" : {
+            "MyConcordiaApi\\" : "src/MyConcordiaApi"
+        }
+    }
+}
