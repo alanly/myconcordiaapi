@@ -2,7 +2,9 @@
 
 namespace MyConcordiaApi;
 
+use MyConcordiaApi\Client\AuthenticationClient;
 use MyConcordiaApi\Client\TranscriptClient;
+use MyConcordiaApi\Connector\PortalConnector;
 use MyConcordiaApi\Parser\CourseParser;
 
 /**
@@ -16,34 +18,45 @@ use MyConcordiaApi\Parser\CourseParser;
 class Portal
 {
     /**
-     * @var string
+     * @var MyConcordiaApi\Connector\ConnectorInterface
      */
-    protected $netname = "";
+    protected $connector = null;
 
     /**
-     * @var string
+     * @param  string $netname
+     * @param  string $password
+     * @param  string $cookieJarContainer
+     * @return void
      */
-    protected $password = "";
-
-    /**
-     * @var string
-     */
-    protected $cookieJar = "";
-
-    /**
-     * @param string $netname
-     * @param string $password
-     * @param string $cookieJar
-     */
-    public function __construct($netname = "", $password = "", $cookieJar = "")
+    public function __construct($cookieJarContainer = null)
     {
-        $this->netname = $netname;
-        $this->password = $password;
+        $this->connector = new PortalConnector;
+        $this->connector->open($cookieJarContainer);
+    }
 
-        if ($cookieJar !== "") {
-            $this->cookieJar = $cookieJar;
-        } else {
-            $this->cookieJar = __DIR__."/cookiejar.txt";
+    /**
+     * @return void
+     */
+    public function __destruct()
+    {
+        $this->connector->close();
+    }
+
+    /**
+     * Authenticate to the portal with the given credentials. This
+     * function should be called prior to all other operations against
+     * the portal.
+     *
+     * @param  string  $netname
+     * @param  string  $password
+     * @return bool
+     */
+    public function authenticate($netname, $password)
+    {
+        $client = new AuthenticationClient($this->connector->getConnection());
+
+        if ($client->authenticate($netname, $password) === false) {
+            throw new \RuntimeException("Unable to authenticate to the portal.");
         }
     }
 
@@ -54,7 +67,7 @@ class Portal
      */
     public function getTranscriptCourses()
     {
-        $client = new TranscriptClient($this->netname, $this->password, $this->cookieJar);
+        $client = new TranscriptClient($this->connector->getConnection());
 
         $parser = new CourseParser($client->getTranscript());
 
