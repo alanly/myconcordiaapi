@@ -17,8 +17,8 @@
         "ext-libxml" : "*"
     },
     "autoload" : {
-        "psr-0" : {
-            "MyConcordiaApi\\" : "src/"
+        "psr-4" : {
+            "MyConcordiaApi\\" : "src/MyConcordiaApi"
         }
     }
 }
