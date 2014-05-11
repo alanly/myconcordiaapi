@@ -4,6 +4,13 @@ namespace MyConcordiaApi\Client;
 
 use MyConcordiaApi\Connection\CurlConnection;
 
+/**
+ * Portal authentication client.
+ *
+ * Handles authentication for a specific connection instance.
+ *
+ * @author Alan Ly <hello@alan.ly>
+ */
 class AuthenticationClient
 {
     /**
