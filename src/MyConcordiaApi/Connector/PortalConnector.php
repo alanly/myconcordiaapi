@@ -21,20 +21,10 @@ class PortalConnector implements ConnectorInterface
     /**
      * Create a connection to the portal.
      *
-     * @return MyConcordiaApi\Connection\CurlConnection
-     */
-    public function open()
-    {
-        return $this->open(null);
-    }
-
-    /**
-     * Create a connection to the portal.
-     *
      * @param  string  $cookieJarContainer
      * @return MyConcordiaApi\Connection\CurlConnection
      */
-    public function open($cookieJarContainer)
+    public function open($cookieJarContainer = null)
     {
         $this->connection = new CurlConnection;
 
