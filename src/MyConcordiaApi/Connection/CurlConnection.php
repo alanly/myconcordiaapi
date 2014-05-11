@@ -118,7 +118,7 @@ class CurlConnection
         $randString = openssl_random_pseudo_bytes($this->__randomBytesLength);
         $hash = hash("sha256", $randString, false);
 
-        $newCookieJarPath = pathinfo($path)["dirname"] . DIRECTORY_SEPARATOR . $hash;
+        $newCookieJarPath = realpath($path).DIRECTORY_SEPARATOR.$hash;
 
         if (is_file($newCookieJarPath)) {
             throw new \RuntimeException("Hash collision for new cookie jar: ".$newCookieJarPath);
