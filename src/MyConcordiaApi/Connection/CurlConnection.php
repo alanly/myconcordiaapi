@@ -120,6 +120,10 @@ class CurlConnection
 
         $newCookieJarPath = (pathinfo($path))["dirname"] . DIRECTORY_SEPARATOR . $hash;
 
+        if (is_file($newCookieJarPath)) {
+            throw new \RuntimeException("Hash collision for new cookie jar: ".$newCookieJarPath);
+        }
+
         if (is_file($this->__cookieJarPath)) {
             if (rename($this->__cookieJarPath, $newCookieJarPath) === false) {
                 throw new \RuntimeException("Unable to move existing cookie jar to new path: ".$path);
